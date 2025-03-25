@@ -1,110 +1,203 @@
-Sub finalLastcheckfiles_macrosheet() ' 判定者シートの役割とEmail列だけ入力してAHEADと合致するか確認
-    Dim Sheet1 As Worksheet
-    Dim Sheet2 As Worksheet
-    Dim lastRow1 As Long
-    Dim lastRow2 As Long
-    Dim rowIdx As Long
-    Dim RoleColumn2 As Long
-    Dim EmailColumn2 As Long
-    Dim mismatchDetails As String
+# Excel業務効率化マクロ集（VBA）
 
-    ' シート1を設定
-    On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("判定者")
-    On Error GoTo 0
-    If Sheet1 Is Nothing Then
-        MsgBox "やるやらシートがありません。", vbExclamation
-        Exit Sub
-    End If
+このプロジェクトは、日々のExcel業務を効率化するためのVBAマクロ5本をまとめたものです。  
+それぞれのマクロは、独立した機能を持ちつつ、組み合わせて使うことで一連の処理を自動化します。
 
-    ' シート2を選択
-    Dim selectedSheetIndex As Integer
-    Dim SheetNameList As String
-    SheetNameList = "シート名リスト:" & vbCrLf
-    For rowIdx = 1 To ThisWorkbook.Sheets.Count
-        SheetNameList = SheetNameList & rowIdx & ". " & ThisWorkbook.Sheets(rowIdx).Name & vbCrLf
-    Next rowIdx
+---
 
-    selectedSheetIndex = CInt(InputBox("比較したいシートを選択してください。" & vbCrLf & SheetNameList))
-    If selectedSheetIndex < 1 Or selectedSheetIndex > ThisWorkbook.Sheets.Count Then
-        MsgBox "無効な番号です。"
-        Exit Sub
-    End If
+## 🧭 目次
 
-    Set Sheet2 = ThisWorkbook.Sheets(selectedSheetIndex)
+- [構成](#構成)
+- [使用方法](#使用方法)
+- [特徴](#特徴)
+- [① やるやらシート生成マクロ（ProcessSheets）](#①-やるやらシート生成マクロprocesssheets)
+- [② checkMacro（シート比較マクロ）](#②-checkmacroシート比較マクロ)
+- [③ 判定要否チェックマクロ](#③-判定要否チェックマクロcompareyaruyara_hanteiyouhi)
+- [④ 最終チェックマクロ](#④-最終チェックマクロfinalcheckmacro)
+- [⑤ 役割・Email整合チェックマクロ](#⑤-役割email整合チェックマクロfinallastcheckfiles_macrosheet)
 
-    ' シート1とシート2の最終行を取得
-    lastRow1 = Sheet1.Cells(Sheet1.Rows.Count, 1).End(xlUp).Row
-    lastRow2 = Sheet2.Cells(Sheet2.Rows.Count, 1).End(xlUp).Row
+---
 
-    ' シート2の「役割」と「Email」列を特定
-    RoleColumn2 = 0
-    EmailColumn2 = 0
-    For ColIdx = 1 To Sheet2.Cells(1, Columns.Count).End(xlToLeft).Column
-        If Trim(Sheet2.Cells(1, ColIdx).Value) = "役割" Then
-            RoleColumn2 = ColIdx
-        ElseIf Trim(Sheet2.Cells(1, ColIdx).Value) = "Email" Then
-            EmailColumn2 = ColIdx
-        End If
-    Next ColIdx
+## 📦 構成
 
-    ' エラー処理
-    If RoleColumn2 = 0 Or EmailColumn2 = 0 Then
-        MsgBox "シート2に必要な列（役割またはEmail）が見つかりません。", vbExclamation
-        Exit Sub
-    End If
+| ファイル名 | 概要 |
+|------------|------|
+| `ProcessSheets` | シート改変 |
+| `checkMacro` | 2つのシートの特定列を比較し、不一致セルを赤塗り＆記録　|
+| `compareyaruyara_hanteiyouhi` | 室課,判定要否列の確認 |
+| `finalCheckMacro` |「やるやら」と他シートの列を最終確認。不一致セルを赤塗り＆記録 |
+| `finalLastcheckfiles_macrosheet` | 判定者シートの役割とEmail列だけ入力してAHEADと合致するか確認 |
 
-    ' 比較開始
-    mismatchDetails = ""
-    For rowIdx = 2 To Application.WorksheetFunction.Min(lastRow1, lastRow2)
-        Dim Role1 As String, Email1 As String
-        Dim Role2 As String, Email2 As String
+---
 
-        ' シート1とシート2の値を取得
-        Role1 = Trim(Sheet1.Cells(rowIdx, 1).Value) ' シート1の役割 (A列)
-        Email1 = Trim(Sheet1.Cells(rowIdx, 2).Value) ' シート1のEmail (B列)
-        Role2 = Trim(Sheet2.Cells(rowIdx, RoleColumn2).Value) ' シート2の役割
-        Email2 = Trim(Sheet2.Cells(rowIdx, EmailColumn2).Value) ' シート2のEmail
+## 🔧 使用方法
 
-        ' 比較して不一致を記録
-        If Role1 <> Role2 Or Email1 <> Email2 Then
-            mismatchDetails = mismatchDetails & "行 " & rowIdx & " に不一致があります:" & vbCrLf & _
-                             "  シート1 - 役割: " & Role1 & ", Email: " & Email1 & vbCrLf & _
-                             "  シート2 - 役割: " & Role2 & ", Email: " & Email2 & vbCrLf & vbCrLf
-        End If
-    Next rowIdx
+1. Excelで「Alt + F11」を押してVBAエディタを開きます。
+2. 「ファイル」→「インポート」で `.bas` ファイルをそれぞれ読み込みます。
+3. 実行したいマクロを選んで「F5」キーで実行します。
 
-    ' 結果を新しいシートに出力
-    If mismatchDetails <> "" Then
-        Call WriteMismatchToNewSheet(mismatchDetails)
-        MsgBox "不一致が見つかりました。詳細は新しいシートを確認してください。", vbInformation
-    Else
-        MsgBox "全て一致しています。", vbInformation
-    End If
-End Sub
+---
 
-Sub WriteMismatchToNewSheet(MismatchRows As String)
-    Dim NewSheet As Worksheet
-    Dim Lines As Variant
-    Dim RowIndex As Long
+## 💡 特徴
+- すべてのマクロは1つの業務フローに沿って設計されています。
+- 個別に実行することも、まとめて実行することも可能です。
+- コメントが丁寧に書かれており、初心者でも読みやすい構成。
 
-    ' 新しいシートを追加
-    Set NewSheet = ThisWorkbook.Sheets.Add
-    NewSheet.Name = "不一致行（ファイナル最終）"
+---
 
-    ' ヘッダーを書き込む
-    NewSheet.Cells(1, 1).Value = "不一致行の詳細"
+## 🗂 リポジトリ内ファイル
+このリポジトリには、以下のVBAマクロ（`.bas`ファイル）が含まれています：
+- `ProcessSheets.bas`
+- `checkMacro.bas`
+- `compareyaruyara_hanteiyouhi.bas`
+- `finalCheckMacro.bas`
+- `finalLastcheckfiles_macrosheet.bas`
 
-    ' MismatchRows を改行で分割して配列に格納
-    Lines = Split(MismatchRows, vbCrLf)
+---
 
-    ' 不一致情報を書き込む
-    For RowIndex = LBound(Lines) To UBound(Lines)
-        If Lines(RowIndex) <> "" Then
-            ' 元の文字列をそのまま書き込む
-            NewSheet.Cells(RowIndex + 2, 1).Value = Lines(RowIndex)
-        End If
-    Next RowIndex
-End Sub
+## 📖 今後の予定
+- 各マクロを一つの「操作ボタン付きテンプレート」に統合予定
+- GitHub Actionsで自動的に`.bas`ファイルをバックアップする機能の追加
+
+---
+
+## ① やるやらシート生成マクロ（ProcessSheets）
+
+### 📌 概要
+複数のシートを処理し、**必要な情報だけを抽出・整形して「やるやら」シートに統合**する総合マクロ。業務でよくある「複数ファイル・複数シートの取りまとめ」を自動化することを目的としています。
+
+### 🔍 主な処理内容
+- シート名やラベル名をもとに、**必要な列だけを抽出**
+- 不要な列を削除、**A0 No.の値でシート名を変更**
+- 室課情報の移動や**5列の空列挿入＋グループ化**
+- 特定の条件に応じて**色付けや条件付き書式の設定**
+- 数式（IF・COUNTIFなど）を自動挿入し、**データの意味づけを支援**
+- 最終的に1枚の「やるやら」シートにまとめて転記・整形
+- **入力制限・保護ロジック**も含まれており、誤操作を防止
+
+### 🧩 使用するサブプロシージャ（構成）
+| サブルーチン名 | 処理内容 |
+|----------------|----------|
+| `ProcessSheets` | メイン処理（全体を統括） |
+| `RenameSheetsBasedOnA0No` | A0 No. に基づいたシート名変更 |
+| `ProcessSheetColumns` | 不要列削除・要件番号追加 |
+| `ProcessAdditionalColumns` | 「AHEAD入力可否」や「室課」列の整形 |
+| `FormatAndStyleSheet` | ヘッダー設定・背景色・枠線などの整形 |
+| `InsertFormulasAndFormatting` | 数式の自動挿入・列の非表示など |
+| `CopyDataToYaruyara` | データの統合（やるやらシートへ転記） |
+| `SetupYaruyaraSheet` | やるやらシートの整形・フィルター・保護など |
+| `RestrictInputBasedOnColumns` | 入力制限と保護のロジック |
+
+### 🛠 使用方法
+1. このプロジェクトの `.bas` ファイルをすべてインポート
+2. 「Alt + F8」で `ProcessSheets` を選択して実行
+3. 自動的に整形・統合が行われ、「やるやら」シートが生成されます
+
+### 🎯 活用シーン
+- 多数のシートを一括処理し、提出用データを整形したいとき
+- 判定や評価情報を一元管理したい業務
+- 誤操作防止のために入力制限も組み込みたい業務フロー
+
+---
+
+### ② checkMacro（シート比較マクロ）
+
+#### 📌 概要
+2つのExcelシート間で特定の列を比較し、値の不一致を検出します。  
+一致しないセルは赤く塗りつぶされ、不一致内容を別シートに出力します。
+
+#### 🔍 主な処理
+- 比較元・比較対象のシートをユーザーが選択
+- 「A0 No.」というラベルをキーにして比較対象範囲を特定
+- 比較対象列もユーザーが選択（手動で指定）
+- 背景色がグレーのセルはスキップ
+- 値が不一致の場合は、該当セルを赤塗り＋メッセージ表示
+- 不一致の詳細を新しいシート「不一致行(チェックマクロ)」に自動出力
+
+#### 🛠 使用方法
+1. `checkMacro` を実行
+2. シート1・シート2を番号で選択（ポップアップあり）
+3. 比較する列（例: `$K:$K`, `$AN:$AN`）をそれぞれ選択
+4. 処理後、不一致がある場合は結果を表示し、新シートに記録されます
+
+#### 📄 出力例
+- `不一致行(チェックマクロ)` というシートに、不一致の行が一覧表示されます
+
+
+## ③ 判定要否チェックマクロ（compareyaruyara_hanteiyouhi）
+
+### 📌 概要
+「やるやら」シートと任意のシート間で、**「室課」および「判定要否」**の内容が一致しているかを比較するマクロです。  
+不一致が見つかると該当セルを赤く塗り、詳細を新しいシートに出力します。
+
+### 🔍 主な処理内容
+- 「やるやら」シートにある **要件番号** をユーザーが選択
+- 任意の比較対象シート（番号で選択）を指定
+- 「室課」列が一致する行同士の「判定要否」を比較
+- 不一致があれば、**シート1・シート2の該当セルを赤塗り**
+- 不一致の詳細を「不一致行（判定要否）」シートに出力
+
+### 🛠 使用方法
+1. `compareyaruyara_hanteiyouhi` を実行
+2. ポップアップで要件番号を選択
+3. 比較対象となるシート番号を選択
+4. 処理が走り、不一致があれば赤く表示され、別シートに出力されます
+
+### 📝 補足
+- 室課が一致しない行はスキップされます
+- 判定要否が空白同士なら一致とみなします
+- 不一致の記録は「不一致行（判定要否）」という新しいシートに自動出力されます
+
+---
+
+## ④ 最終チェックマクロ（finalCheckMacro）
+
+### 📌 概要
+「やるやら」シートと他の任意のシート間で、**特定の列の値が一致しているかを最終確認**するマクロです。  
+不一致がある場合は該当セルを赤く塗り、別シートに詳細を出力します。
+
+### 🔍 主な処理内容
+- ユーザーが比較したいシートを選択（番号入力）
+- `A0 No.` の4桁の値をキーとして「やるやら」シートの対象行を抽出
+- 両シートの比較対象列をユーザーが選択（手動で列選択）
+- 値が一致しない場合、**セルを赤塗り＆不一致情報をメッセージ表示**
+- 不一致行を `不一致行(最終チェックマクロ)` シートに出力
+
+### 🛠 使用方法
+1. `finalCheckMacro` を実行
+2. 比較対象となるシートを番号で選択
+3. 比較する列を両シートで手動選択（例：`=やるやら!$B:$B` と `=SampleSheet!$P:$P`）
+4. 処理後、不一致があればセルが赤く塗られ、別シートに記録されます
+
+### 📝 補足
+- `A0 No.` の先頭4文字がキーとして使われます
+- シート1（やるやら）の比較範囲は `A` 列から自動で検出
+- 最終チェックの目的で使用し、**事前の整形が済んでいることが前提**
+
+---
+## ⑤ 役割・Email整合チェックマクロ（finalLastcheckfiles_macrosheet）
+
+### 📌 概要
+「判定者」シートに記載された **役割とEmailの組み合わせ** が、他のシートと一致しているかを確認する最終チェックマクロです。  
+不一致があれば詳細を別シートに出力します。
+
+### 🔍 主な処理内容
+- 「判定者」シートのA列（役割）・B列（Email）を対象とする
+- ユーザーが比較対象となるシートを選択
+- そのシートの中から「役割」「Email」列を自動検出
+- 2つのシートを**行単位で比較**
+- 不一致があれば詳細を **「不一致行（ファイナル最終）」** シートに出力
+
+### 🛠 使用方法
+1. `finalLastcheckfiles_macrosheet` を実行
+2. 比較対象のシートを番号で選択
+3. 判定が行われ、結果が表示されます
+
+### 📝 補足
+- 列名が「役割」「Email」である必要があります（全角カナ対応）
+- 行数は「判定者」シートと比較対象シートの短い方で揃えられます
+- 結果は見やすいテキスト形式で新しいシートに出力されます
+
+---
 
 
