@@ -1,3 +1,5 @@
+> 🔗 本プロジェクトは、Excel業務を効率化するためのVBAマクロをGitHub上で共有・管理する目的で構築しています。転職活動・スキルポートフォリオとしても活用中。
+
 # Excel業務効率化マクロ集（VBA）
 このプロジェクトは、日々のExcel業務を効率化するためのVBAマクロ5本をまとめたものです。  
 それぞれのマクロは、独立した機能を持ちつつ、組み合わせて使うことで一連の処理を自動化します。
@@ -24,7 +26,6 @@
 | `finalLastcheckfiles_macrosheet` | 【役割・Email整合性確認】 | 判定者シートと他のシート間で、役割とEmailが一致しているかをチェック |
 
 ## 📊 マクロ全体の流れ（フローチャート）
-
 ```mermaid
 flowchart TD
     A[① ProcessSheets<br>やるやらシート生成] --> B[② checkMacro<br>2シート列比較]
@@ -35,8 +36,12 @@ flowchart TD
 ```
  補足：Mermaid記法によるフローチャートは、GitHubの一部UIでは表示されない場合があります。その際は、ローカルで Live Editor をご利用ください。
 
-## 🔧 使用方法
+ ## 📸 デモ（Before / After）
+`docs/demo.gif` に、実際の処理の流れをまとめたGIFを用意しています。  
+（例：処理前のシート → マクロ実行 → 自動整形後）
+> 📄 詳しい使い方は [`docs/使い方ガイド.pdf`](docs/使い方ガイド.pdf) を参照してください。
 
+## 🔧 使用方法
 1. Excelで「Alt + F11」を押してVBAエディタを開きます。
 2. 「ファイル」→「インポート」で `.bas` ファイルをそれぞれ読み込みます。
 3. 実行したいマクロを選んで「F5」キーで実行します。
@@ -54,9 +59,19 @@ flowchart TD
 - `finalCheckMacro.bas`
 - `finalLastcheckfiles_macrosheet.bas`
 
+- ## 🛡️ ライセンス
+このリポジトリのコードは MIT ライセンスのもとで公開されています。  
+商用利用・改変はご自由にどうぞ。
+
+## 🙋‍♂️ お問い合わせ
+本プロジェクトに関する質問・ご連絡は GitHubのIssue または [プロフィールのメールアドレス](https://github.com/あなたのユーザー名) にお願いします。
+
 ## 📖 今後の予定
 - 各マクロを一つの「操作ボタン付きテンプレート」に統合予定
 - GitHub Actionsで自動的に`.bas`ファイルをバックアップする機能の追加
+
+![VBA](https://img.shields.io/badge/Excel-VBA-green)
+![自動化](https://img.shields.io/badge/業務効率化-100%25-success)
 
 ---
 
@@ -64,6 +79,18 @@ flowchart TD
 
 ### 📌 概要
 複数のシートを処理し、**必要な情報だけを抽出・整形して「やるやら」シートに統合**する総合マクロ。業務でよくある「複数ファイル・複数シートの取りまとめ」を自動化することを目的としています。
+
+### 📁 マクロ構成
+このプロジェクトは以下のマクロで構成されています：
+- `ProcessSheets.bas` : メイン処理（やるやらシート生成）
+- `RenameSheetsBasedOnA0No.bas` : A0 No. に基づくシート名変更
+- `ProcessSheetColumns.bas` : 不要列削除・要件番号列の整形
+- `FormatAndStyleSheet.bas` : 色付けや条件付き書式などの整形
+- `InsertFormulasAndFormatting.bas` : 数式の自動挿入と条件付き書式
+- `CopyDataToYaruyara.bas` : やるやらシートへの転記処理
+- `SetupYaruyaraSheet.bas` : フィルタ・保護・並び替え等の最終整形
+- `RestrictInputBasedOnColumns.bas` : 列ごとの入力制限と保護
+> すべてのマクロはモジュール単位で `.bas` ファイルとして管理されています。
 
 ### 🔍 主な処理内容
 - シート名やラベル名をもとに、**必要な列だけを抽出**
@@ -74,7 +101,7 @@ flowchart TD
 - 最終的に1枚の「やるやら」シートにまとめて転記・整形
 - **入力制限・保護ロジック**も含まれており、誤操作を防止
 
-#### ✅ フローチャート
+### ✅ フローチャート
 ```markdown
 ### 📈 処理フロー図
 
