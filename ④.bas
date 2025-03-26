@@ -1,5 +1,5 @@
-Attribute VB_Name = "‡C"
-Sub finalCheckMacro()
+Attribute VB_Name = "â‘£"
+Sub compareYaruyaraColumns
     Dim range1 As Range, range2 As Range
     Dim cell1 As Range, cell2 As Range
     Dim mismatchDetails As String
@@ -14,106 +14,106 @@ Sub finalCheckMacro()
     Dim A0NoCol As Long
     Dim A0NoValue As String
 
-    ' u‚â‚é‚â‚çvƒV[ƒg‚ğŠm”F‚µ‚Äİ’è
+    ' ã€Œã‚„ã‚‹ã‚„ã‚‰ã€ã‚·ãƒ¼ãƒˆã‚’ç¢ºèªã—ã¦è¨­å®š
     On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("‚â‚é‚â‚ç")
+    Set Sheet1 = ThisWorkbook.Sheets("ã‚„ã‚‹ã‚„ã‚‰")
     On Error GoTo 0
     If Sheet1 Is Nothing Then
-        MsgBox "u‚â‚é‚â‚çvƒV[ƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñBˆ—‚ğI—¹‚µ‚Ü‚·B", vbExclamation
+        MsgBox "ã€Œã‚„ã‚‹ã‚„ã‚‰ã€ã‚·ãƒ¼ãƒˆãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚å‡¦ç†ã‚’çµ‚äº†ã—ã¾ã™ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ƒV[ƒg–¼ƒŠƒXƒg‚Ìì¬
-    sheetList = "ƒV[ƒg–¼ƒŠƒXƒg:" & vbCrLf
+    ' ã‚·ãƒ¼ãƒˆåãƒªã‚¹ãƒˆã®ä½œæˆ
+    sheetList = "ã‚·ãƒ¼ãƒˆåãƒªã‚¹ãƒˆ:" & vbCrLf
     For rowIdx = 1 To ThisWorkbook.Sheets.Count
         sheetList = sheetList & rowIdx & ". " & ThisWorkbook.Sheets(rowIdx).Name & vbCrLf
     Next rowIdx
 
-    ' ƒ†[ƒU[‚ÉƒV[ƒg”Ô†‚ğ“ü—Í‚³‚¹‚é
-    sheetIndex = Application.InputBox("”äŠr‚·‚éƒV[ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢i”Ô†‚ğ“ü—Íj:" & vbCrLf & sheetList, "ƒV[ƒg‘I‘ğ", Type:=1)
+    ' ãƒ¦ãƒ¼ã‚¶ãƒ¼ã«ã‚·ãƒ¼ãƒˆç•ªå·ã‚’å…¥åŠ›ã•ã›ã‚‹
+    sheetIndex = Application.InputBox("æ¯”è¼ƒã™ã‚‹ã‚·ãƒ¼ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„ï¼ˆç•ªå·ã‚’å…¥åŠ›ï¼‰:" & vbCrLf & sheetList, "ã‚·ãƒ¼ãƒˆé¸æŠ", Type:=1)
 
-    ' “ü—Íƒ`ƒFƒbƒN
+    ' å…¥åŠ›ãƒã‚§ãƒƒã‚¯
     If sheetIndex < 1 Or sheetIndex > ThisWorkbook.Sheets.Count Then
-        MsgBox "³‚µ‚¢ƒV[ƒg”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B", vbExclamation
+        MsgBox "æ­£ã—ã„ã‚·ãƒ¼ãƒˆç•ªå·ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ƒV[ƒg2‚ğİ’è
+    ' ã‚·ãƒ¼ãƒˆ2ã‚’è¨­å®š
     Set Sheet2 = ThisWorkbook.Sheets(sheetIndex)
     
-    ' uA0 No.vƒ‰ƒxƒ‹‚Ì—ñ”Ô†‚ğæ“¾
+    ' ã€ŒA0 No.ã€ãƒ©ãƒ™ãƒ«ã®åˆ—ç•ªå·ã‚’å–å¾—
     A0NoCol = Application.Match("A0 No.", Sheet2.Rows(1), 0)
     
-    ' uA0 No.v‚ªŒ©‚Â‚©‚Á‚½ê‡A‚»‚Ì—ñ‚Ì2s–Ú‚Ì’l‚Ì¶‚©‚ç4•¶š‚ğæ“¾
+    ' ã€ŒA0 No.ã€ãŒè¦‹ã¤ã‹ã£ãŸå ´åˆã€ãã®åˆ—ã®2è¡Œç›®ã®å€¤ã®å·¦ã‹ã‚‰4æ–‡å­—ã‚’å–å¾—
     If Not IsError(A0NoCol) Then
         A0NoValue = Left(Sheet2.Cells(2, A0NoCol).Value, 4)
     Else
-        MsgBox """A0 No.""" & " ƒ‰ƒxƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B"
+        MsgBox """A0 No.""" & " ãƒ©ãƒ™ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚"
         Exit Sub
     End If
     
-    ' keyValue‚ÉŠi”[
+    ' keyValueã«æ ¼ç´
     keyValue = Trim(A0NoValue)
 
-    ' ƒV[ƒg1‚ÌA—ñ‚ÅƒL[’l‚ªn‚Ü‚és‚ğŒŸõ
+    ' ã‚·ãƒ¼ãƒˆ1ã®Aåˆ—ã§ã‚­ãƒ¼å€¤ãŒå§‹ã¾ã‚‹è¡Œã‚’æ¤œç´¢
     startRow1 = Sheet1.Columns(1).Find(What:=keyValue, LookIn:=xlValues, LookAt:=xlWhole).Row
 
-    ' ƒV[ƒg1‚ÌA—ñ‚ÅƒL[’l‚ªI‚í‚és‚ğŒŸõ
+    ' ã‚·ãƒ¼ãƒˆ1ã®Aåˆ—ã§ã‚­ãƒ¼å€¤ãŒçµ‚ã‚ã‚‹è¡Œã‚’æ¤œç´¢
     endRow1 = Sheet1.Columns(1).Find(What:=keyValue & "*", LookIn:=xlValues, LookAt:=xlWhole, SearchDirection:=xlPrevious).Row
 
-    ' ƒGƒ‰[ˆ—
+    ' ã‚¨ãƒ©ãƒ¼å‡¦ç†
     If startRow1 = 0 Or endRow1 = 0 Then
-        MsgBox "ƒL[’li" & keyValue & "j‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B", vbExclamation
+        MsgBox "ã‚­ãƒ¼å€¤ï¼ˆ" & keyValue & "ï¼‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ƒV[ƒg1i‚â‚é‚â‚çj‚Å”äŠr‚·‚é—ñ‚ğ‘I‘ğ
-    Set range1 = Application.InputBox("”äŠr‚·‚é—ñ‚ğ‚â‚é‚â‚çƒV[ƒg‚Å‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢i—á: =‚â‚é‚â‚ç!$B:$BjB", Type:=8)
-    If range1 Is Nothing Or range1.Worksheet.Name <> "‚â‚é‚â‚ç" Then
-        MsgBox "‚â‚é‚â‚çƒV[ƒg‚Ì—ñ‚ª³‚µ‚­‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñBˆ—‚ğI—¹‚µ‚Ü‚·B", vbExclamation
+    ' ã‚·ãƒ¼ãƒˆ1ï¼ˆã‚„ã‚‹ã‚„ã‚‰ï¼‰ã§æ¯”è¼ƒã™ã‚‹åˆ—ã‚’é¸æŠ
+    Set range1 = Application.InputBox("æ¯”è¼ƒã™ã‚‹åˆ—ã‚’ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆã§é¸æŠã—ã¦ãã ã•ã„ï¼ˆä¾‹: =ã‚„ã‚‹ã‚„ã‚‰!$B:$Bï¼‰ã€‚", Type:=8)
+    If range1 Is Nothing Or range1.Worksheet.Name <> "ã‚„ã‚‹ã‚„ã‚‰" Then
+        MsgBox "ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆã®åˆ—ãŒæ­£ã—ãé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚å‡¦ç†ã‚’çµ‚äº†ã—ã¾ã™ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ƒV[ƒg2‚Å”äŠr‚·‚é—ñ‚ğ‘I‘ğ
-    Set range2 = Application.InputBox("”äŠr‚·‚é—ñ‚ğ‘¼‚ÌƒV[ƒg‚Å‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢i—á: =" & Sheet2.Name & "!$P:$PjB", Type:=8)
+    ' ã‚·ãƒ¼ãƒˆ2ã§æ¯”è¼ƒã™ã‚‹åˆ—ã‚’é¸æŠ
+    Set range2 = Application.InputBox("æ¯”è¼ƒã™ã‚‹åˆ—ã‚’ä»–ã®ã‚·ãƒ¼ãƒˆã§é¸æŠã—ã¦ãã ã•ã„ï¼ˆä¾‹: =" & Sheet2.Name & "!$P:$Pï¼‰ã€‚", Type:=8)
     If range2 Is Nothing Then
-        MsgBox "ƒV[ƒg2‚Ì—ñ‚ª‘I‘ğ‚³‚ê‚Ü‚¹‚ñ‚Å‚µ‚½Bˆ—‚ğI—¹‚µ‚Ü‚·B", vbExclamation
+        MsgBox "ã‚·ãƒ¼ãƒˆ2ã®åˆ—ãŒé¸æŠã•ã‚Œã¾ã›ã‚“ã§ã—ãŸã€‚å‡¦ç†ã‚’çµ‚äº†ã—ã¾ã™ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ‰Šú‰»
+    ' åˆæœŸåŒ–
     mismatchDetails = ""
 
-    ' ”äŠrˆ—i1‘Î1‚Ìs”äŠrj
-    row2 = 2 ' ƒV[ƒg2‚ÌŠJns
+    ' æ¯”è¼ƒå‡¦ç†ï¼ˆ1å¯¾1ã®è¡Œæ¯”è¼ƒï¼‰
+    row2 = 2 ' ã‚·ãƒ¼ãƒˆ2ã®é–‹å§‹è¡Œ
     For row1 = startRow1 To endRow1
         If row2 > Sheet2.Cells(Sheet2.Rows.Count, range2.Column).End(xlUp).Row Then Exit For
 
-        ' ƒZƒ‹‚ğæ“¾
+        ' ã‚»ãƒ«ã‚’å–å¾—
         Set cell1 = Sheet1.Cells(row1, range1.Column)
         Set cell2 = Sheet2.Cells(row2, range2.Column)
 
-        ' ’l‚ğæ“¾‚µ‚Ä”äŠr
+        ' å€¤ã‚’å–å¾—ã—ã¦æ¯”è¼ƒ
         val1 = Trim(CStr(cell1.Value))
         val2 = Trim(CStr(cell2.Value))
 
-        ' ”äŠrğŒ
+        ' æ¯”è¼ƒæ¡ä»¶
         If val1 <> val2 Then
             cell1.Interior.Color = RGB(255, 0, 0)
             cell2.Interior.Color = RGB(255, 0, 0)
-            mismatchDetails = mismatchDetails & "ƒV[ƒg1s " & row1 & " / ƒV[ƒg2s " & row2 & ": ’l‚ªˆê’v‚µ‚Ü‚¹‚ñ (Cell1: [" & val1 & "], Cell2: [" & val2 & "])" & vbCrLf
+            mismatchDetails = mismatchDetails & "ã‚·ãƒ¼ãƒˆ1è¡Œ " & row1 & " / ã‚·ãƒ¼ãƒˆ2è¡Œ " & row2 & ": å€¤ãŒä¸€è‡´ã—ã¾ã›ã‚“ (Cell1: [" & val1 & "], Cell2: [" & val2 & "])" & vbCrLf
         End If
 
-        ' ƒV[ƒg2‚ÌŸ‚Ìs‚Ö
+        ' ã‚·ãƒ¼ãƒˆ2ã®æ¬¡ã®è¡Œã¸
         row2 = row2 + 1
     Next row1
 
-    ' Œ‹‰Ê‚ğ•\¦
+    ' çµæœã‚’è¡¨ç¤º
     If mismatchDetails = "" Then
-        MsgBox "‚·‚×‚Äˆê’v‚µ‚Ü‚µ‚½I", vbInformation
+        MsgBox "ã™ã¹ã¦ä¸€è‡´ã—ã¾ã—ãŸï¼", vbInformation
     Else
-        MsgBox "ˆÈ‰º‚Ì•sˆê’v‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½:" & vbCrLf & mismatchDetails, vbExclamation
-        ' •sˆê’vs‚ğV‚µ‚¢ƒV[ƒg‚É‘‚«o‚·
+        MsgBox "ä»¥ä¸‹ã®ä¸ä¸€è‡´ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸ:" & vbCrLf & mismatchDetails, vbExclamation
+        ' ä¸ä¸€è‡´è¡Œã‚’æ–°ã—ã„ã‚·ãƒ¼ãƒˆã«æ›¸ãå‡ºã™
         WriteMismatchToNewSheet mismatchDetails
     End If
 End Sub
@@ -123,17 +123,17 @@ Sub WriteMismatchToNewSheet(MismatchRows As String)
     Dim Lines As Variant
     Dim RowIndex As Long
 
-    ' V‚µ‚¢ƒV[ƒg‚ğ’Ç‰Á
+    ' æ–°ã—ã„ã‚·ãƒ¼ãƒˆã‚’è¿½åŠ 
     Set NewSheet = ThisWorkbook.Sheets.Add
-    NewSheet.Name = "•sˆê’vs(ÅIƒ`ƒFƒbƒNƒ}ƒNƒ)"
+    NewSheet.Name = "ä¸ä¸€è‡´è¡Œ(æœ€çµ‚ãƒã‚§ãƒƒã‚¯ãƒã‚¯ãƒ­)"
 
-    ' ƒwƒbƒ_[‚ğ‘‚«‚Ş
-    NewSheet.Cells(1, 1).Value = "•sˆê’vs‚ÌÚ×"
+    ' ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’æ›¸ãè¾¼ã‚€
+    NewSheet.Cells(1, 1).Value = "ä¸ä¸€è‡´è¡Œã®è©³ç´°"
 
-    ' MismatchRows ‚ğ‰üs‚Å•ªŠ„‚µ‚Ä”z—ñ‚ÉŠi”[
+    ' MismatchRows ã‚’æ”¹è¡Œã§åˆ†å‰²ã—ã¦é…åˆ—ã«æ ¼ç´
     Lines = Split(MismatchRows, vbCrLf)
 
-    ' •sˆê’vî•ñ‚ğ‘‚«‚Ş
+    ' ä¸ä¸€è‡´æƒ…å ±ã‚’æ›¸ãè¾¼ã‚€
     For RowIndex = LBound(Lines) To UBound(Lines)
         If Lines(RowIndex) <> "" Then
             NewSheet.Cells(RowIndex + 2, 1).Value = Lines(RowIndex)
