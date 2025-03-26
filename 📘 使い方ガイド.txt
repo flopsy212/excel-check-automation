@@ -9,12 +9,12 @@ VBAエディタ（Alt + F11）で .bas ファイルをインポート
 対象ブックに「やるやら」「判定者」など必要なシートを用意
 
 3. マクロ一覧と役割	
-マクロ名				説明					実行順
-ProcessSheets				やるやらシートを生成			① 最初に実行
-checkMacro				2シートを列比較し、不一致を赤塗り	② 中間チェック
-compareyaruyara_hanteiyouhi		室課・判定要否の一致確認		③
-finalCheckMacro				任意列の最終チェック			④
-finalLastcheckfiles_macrosheet		役割・Emailの整合チェック		⑤
+マクロ名				                    説明				            	    実行順
+ProcessSheets				              やるやらシートを生成			      ① 最初に実行
+checkMacro				                シートを列比較し、不一致を赤塗り	② 中間チェック
+compareyaruyara_hanteiyouhi		    室課・判定要否の一致確認	    	③ 室課・判定要否の一致確認
+finalCheckMacro				            任意列のチェック		          	④ 中間チェック
+finalLastcheckfiles_macrosheet		役割・Emailの整合チェック		    ⑤ 役割・Email整合性確認
 
 4. 実行手順（例：やるやら生成）
 Alt + F8 → ProcessSheets を実行
