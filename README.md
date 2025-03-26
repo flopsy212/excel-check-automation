@@ -13,7 +13,7 @@
 - [① やるやらシート生成マクロ（ProcessSheets）](#①-やるやらシート生成マクロprocesssheets)
 - [② checkMacro（シート比較マクロ）](#②-checkmacroシート比較マクロ)
 - [③ 判定要否チェックマクロ](#③-判定要否チェックマクロcompareyaruyara_hanteiyouhi)
-- [④ 最終チェックマクロ](#④-最終チェックマクロfinalcheckmacro)
+- [④ 任意列比較マクロ](#④-任意列比較マクロcompareYaruyaraColumns)
 - [⑤ 役割・Email整合チェックマクロ](#⑤-役割email整合チェックマクロfinalLastcheckfiles_macrosheet)
 
 ## 📦 構成（マクロの流れと役割
@@ -22,7 +22,7 @@
 | `ProcessSheets` | 【最初に実行】 | 各シートの必要列を抽出・整形して「やるやら」シートを作成。入力制限や色付けも自動で設定 |
 | `checkMacro` | 【中間チェック】 | 2つの任意のシートの指定列を比較。不一致セルを赤く塗り、結果を別シートに出力 |
 | `compareyaruyara_hanteiyouhi` | 【室課・判定要否の一致確認】 | 「やるやら」シートと別シート間で、室課と判定要否の内容が一致しているかチェック |
-| `finalCheckMacro` | 【最終確認】 | 「やるやら」シートと別シートの任意列を最終チェック。不一致があれば赤塗り＆詳細出力 |
+| `compareYaruyaraColumns` | 【中間チェック】 | 「やるやら」シートと別シートの任意列を最終チェック。不一致があれば赤塗り＆詳細出力 |
 | `finalLastcheckfiles_macrosheet` | 【役割・Email整合性確認】 | 判定者シートと他のシート間で、役割とEmailが一致しているかをチェック |
 
 ## 📊 マクロ全体の流れ（フローチャート）
@@ -30,7 +30,7 @@
 flowchart TD
     A[① ProcessSheets<br>やるやらシート生成] --> B[② checkMacro<br>2シート列比較]
     B --> C[③ compareyaruyara_hanteiyouhi<br>室課・判定要否チェック]
-    C --> D[④ finalCheckMacro<br>任意列の最終チェック]
+    C --> D[④ compareYaruyaraColumns<br>任意列の最終チェック]
     D --> E[⑤ finalLastcheckfiles_macrosheet<br>役割・Email整合性]
     E --> F[提出 or 保存]
 ```
@@ -56,7 +56,7 @@ flowchart TD
 - `ProcessSheets.bas`
 - `checkMacro.bas`
 - `compareyaruyara_hanteiyouhi.bas`
-- `finalCheckMacro.bas`
+- `compareYaruyaraColumns.bas`
 - `finalLastcheckfiles_macrosheet.bas`
 
 - ## 🛡️ ライセンス
@@ -215,7 +215,7 @@ flowchart TD
 
 ---
 
-## ④ 最終チェックマクロ（finalCheckMacro）
+## ④ 任意列比較マクロ（compareYaruyaraColumns）
 
 ### 📌 概要
 「やるやら」シートと他の任意のシート間で、**特定の列の値が一致しているかを最終確認**するマクロです。  
@@ -242,7 +242,7 @@ flowchart TD
 ```
 
 ### 🛠 使用方法
-1. `finalCheckMacro` を実行
+1. `compareYaruyaraColumns` を実行
 2. 比較対象となるシートを番号で選択
 3. 比較する列を両シートで手動選択（例：`=やるやら!$B:$B` と `=SampleSheet!$P:$P`）
 4. 処理後、不一致があればセルが赤く塗られ、別シートに記録されます
