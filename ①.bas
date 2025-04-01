@@ -26,7 +26,7 @@ Sub ProcessSheets() 'シート改変
 
     ' Sheet1などのシート以外をループして処理
     For Each ws In ThisWorkbook.Sheets
-        If ws.Name <> "Sheet1" And ws.Name <> "全体フロー" And ws.Name <> "手順説明" And ws.Name <> "判定者" And ws.Name <> "統合" And ws.Name <> "Innovator" And ws.Name <> "見本" And ws.Name <> "Innovator (2)" Then
+        If ws.Name <> "Sheet1" And ws.Name <> "全体フロー" And ws.Name <> "手順説明" And ws.Name <> "Checker" And ws.Name <> "統合" And ws.Name <> "Reference" And ws.Name <> "Template" And ws.Name <> "Reference (2)" Then
             ' 処理フロー
             Call ProcessSheetColumns(ws, columnsToKeep)
             Call ProcessAdditionalColumns(ws)
@@ -48,7 +48,7 @@ Sub RenameSheetsBasedOn管理ID()
 
     ' シートをループしてシート名を変更
     For Each ws In ThisWorkbook.Sheets
-        If ws.Name <> "Sheet1" And ws.Name <> "全体フロー" And ws.Name <> "手順説明" And ws.Name <> "判定者" And ws.Name <> "統合" And ws.Name <> "Innovator" And ws.Name <> "見本" And ws.Name <> "Innovator (2)" Then
+        If ws.Name <> "Sheet1" And ws.Name <> "全体フロー" And ws.Name <> "手順説明" And ws.Name <> "Checker" And ws.Name <> "統合" And ws.Name <> "Reference" And ws.Name <> "Template" And ws.Name <> "Reference (2)" Then
             ' P列の2行目の値を確認
             cellValue = ws.Cells(2, "P").Value ' P列の2行目
 
@@ -71,7 +71,7 @@ Sub RenameSheetsBasedOn管理ID()
     Next ws
 End Sub
 
-Sub Proc部門SheetColumns(ws As Worksheet, columnsToKeep As Variant) '不要列削除・要件番号列挿入
+Sub ProcessSheetColumns(ws As Worksheet, columnsToKeep As Variant) '不要列削除・要件番号列挿入
     Dim col As Long '列削除で使用
     Dim colReqNo As Variant
     Dim col管理ID As Variant ' 管理ID.列を検索するときに使用
@@ -108,7 +108,7 @@ Sub Proc部門SheetColumns(ws As Worksheet, columnsToKeep As Variant) '不要列
 
     If Not IsError(colReqNo) Then
         ' 管理ID.列を検索
-        col管理ID = Application.Match("管理ID.", ws.Rows(1), 0)
+        col管理ID = Application.Match("管理ID", ws.Rows(1), 0)
         
         If Not IsError(col管理ID) Then
             ' 管理ID.列を要件番号列の右隣にコピーして挿入
@@ -118,14 +118,14 @@ Sub Proc部門SheetColumns(ws As Worksheet, columnsToKeep As Variant) '不要列
             ' コピー後、元の管理ID.列を削除
             ws.Columns(col管理ID + 1).Delete Shift:=xlToLeft
         Else
-            MsgBox """管理ID.""" & " ラベルが見つかりませんでした。"
+            MsgBox """管理ID""" & " ラベルが見つかりませんでした。"
         End If
     Else
         MsgBox """要件番号""" & " ラベルが見つかりませんでした。"
     End If
 End Sub
 
-Sub Proc部門AdditionalColumns(ws As Worksheet) '列挿入・部署列移動
+Sub ProcessAdditionalColumns(ws As Worksheet) '列挿入・部署列移動
     Dim col要件一覧ビューInput As Variant
     Dim colRoom As Variant
 
@@ -163,7 +163,7 @@ End Sub
 
 Sub FormatAndStyleSheet(ws As Worksheet)
     Dim colorToApply As Long
-    Dim where部門 As Long
+    Dim whereESS As Long
     Dim lastRow As Long
     Dim cell As Range
 
@@ -194,10 +194,10 @@ Sub FormatAndStyleSheet(ws As Worksheet)
     Next cell
 
     ' 部署側で入力が完了していないセルに黄色を付ける
-    where部門 = 23
-    lastRow = ws.Cells(ws.Rows.Count, where部門).End(xlUp).Row
-    For Each cell In ws.Range(ws.Cells(2, where部門), ws.Cells(lastRow, where部門))
-        If Trim(cell.Value) <> "" And InStr(UCase(Trim(cell.Value)), "部門") = 0 Then
+    where部署A = 23
+    lastRow = ws.Cells(ws.Rows.Count, where部署A).End(xlUp).Row
+    For Each cell In ws.Range(ws.Cells(2, where部署A), ws.Cells(lastRow, where部署A))
+        If Trim(cell.Value) <> "" And InStr(UCase(Trim(cell.Value)), "部署A") = 0 Then
             cell.EntireRow.Interior.Color = RGB(169, 169, 169)
         End If
     Next cell
@@ -268,7 +268,7 @@ Sub InsertFormulasAndFormatting(ws As Worksheet, yaruyaraSheet As Worksheet)
     With targetRange
         .FormatConditions.Delete ' 既存の条件付き書式を削除
         ' 数式を利用した条件付き書式を追加
-        With .FormatConditions.Add(Type:=xlExpr部門ion, Formula1:="=$V2=""〇""")
+        With .FormatConditions.Add(Type:=xlExpression, Formula1:="=$V2=""〇""")
             .Interior.Color = RGB(255, 255, 255) ' 白色に設定
         End With
     End With
@@ -345,7 +345,7 @@ Sub SetupYaruyaraSheet(yaruyaraSheet As Worksheet, headerSourceSheet As Workshee
     With targetRange
         .FormatConditions.Delete ' 既存の条件付き書式を削除
         ' 数式を利用した条件付き書式を追加
-        With .FormatConditions.Add(Type:=xlExpr部門ion, Formula1:="=$V2=""〇""")
+        With .FormatConditions.Add(Type:=xlExpression, Formula1:="=$V2=""〇""")
             .Interior.Color = RGB(255, 255, 255) ' 白色に設定
         End With
     End With
@@ -416,6 +416,10 @@ Sub RestrictInputBasedOnColumns(ws As Worksheet)
     ' シート保護を再設定
     ws.Protect Password:="password", UserInterfaceOnly:=True, AllowFiltering:=True
 End Sub
+
+
+
+
 
 
 
