@@ -14,7 +14,7 @@
 - [② checkMacro（シート比較マクロ）](#②-checkmacroシート比較マクロ)
 - [③ 判定要否チェックマクロ](#③-判定要否チェックマクロcompareyaruyara_hanteiyouhi)
 - [④ 任意列比較マクロ](#④-任意列比較マクロcompareYaruyaraColumns)
-- [⑤ 役割・Email整合チェックマクロ](#⑤-役割email整合チェックマクロfinalLastcheckfiles_macrosheet)
+- [⑤ 役割・Email整合チェックマクロ](#⑤-役割email整合チェックマクロLastcheckfiles_macrosheet)
 
 ## 📦 構成（マクロの流れと役割）
 | ファイル名（サブルーチン） | 役割 / 使用タイミング | 概要 |
@@ -31,7 +31,7 @@ flowchart TD
     A[① ProcessSheets<br>やるやらシート生成] --> B[② checkMacro<br>2シート列比較]
     B --> C[③ compareyaruyara_hanteiyouhi<br>室課・判定要否チェック]
     C --> D[④ compareYaruyaraColumns<br>任意列の最終チェック]
-    D --> E[⑤ finalLastcheckfiles_macrosheet<br>役割・Email整合性]
+    D --> E[⑤ Lastcheckfiles_macrosheet<br>役割・Email整合性]
     E --> F[提出 or 保存]
 ```
  補足：Mermaid記法によるフローチャートは、GitHubの一部UIでは表示されない場合があります。その際は、ローカルで Live Editor をご利用ください。
@@ -57,7 +57,7 @@ flowchart TD
 - `checkMacro.bas`
 - `compareyaruyara_hanteiyouhi.bas`
 - `compareYaruyaraColumns.bas`
-- `finalLastcheckfiles_macrosheet.bas`
+- `Lastcheckfiles_macrosheet.bas`
 
 - ## 🛡️ ライセンス
 このリポジトリのコードは MIT ライセンスのもとで公開されています。  
@@ -254,7 +254,7 @@ flowchart TD
 
 ---
 
-## ⑤ 役割・Email整合チェックマクロ（finalLastcheckfiles_macrosheet）
+## ⑤ 役割・Email整合チェックマクロ（Lastcheckfiles_macrosheet）
 
 ### 📌 概要
 「判定者」シートに記載された **役割とEmailの組み合わせ** が、他のシートと一致しているかを確認する最終チェックマクロです。  
@@ -281,7 +281,7 @@ flowchart TD
 ```
 
 ### 🛠 使用方法
-1. `finalLastcheckfiles_macrosheet` を実行
+1. `Lastcheckfiles_macrosheet` を実行
 2. 比較対象のシートを番号で選択
 3. 判定が行われ、結果が表示されます
 
