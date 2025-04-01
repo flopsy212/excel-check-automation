@@ -1,149 +1,129 @@
-Attribute VB_Name = "‡B"
-Sub compareyaruyara_hanteiyouhi() 'º‰Û,”»’è—v”Û—ñ‚ÌŠm”F
-    Dim requirementNumber As String ' —vŒ”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•¶š—ñ•Ï”
-    Dim requirementRow As Long ' —vŒ”Ô†‚ªŒ©‚Â‚©‚Á‚½s”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-    Dim roomKaa As String ' º‰Ûi‚¨‚»‚ç‚­•”–å‚â’S“–j‚Ìî•ñ‚ğŠi”[‚·‚é‚½‚ß‚Ì•¶š—ñ•Ï”
-    Dim yColumnValue As String ' Y—ñ‚Ì’l‚ğŠi”[‚·‚é‚½‚ß‚Ì•¶š—ñ•Ï”
-    Dim roomColumn As Long ' º‰Û—ñ‚Ì—ñ”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-    Dim judgementColumn As Long ' ”»’è—ñ‚Ì—ñ”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-    Dim lastRow1 As Long ' Å‰‚ÌƒV[ƒgiSheet1j‚É‚¨‚¯‚éƒf[ƒ^‚ÌÅIs‚ğŠi”[‚·‚é•Ï”
-    Dim lastRow2 As Long ' 2”Ô–Ú‚ÌƒV[ƒgiSheet2j‚É‚¨‚¯‚éƒf[ƒ^‚ÌÅIs‚ğŠi”[‚·‚é•Ï”
-    Dim matchResult As Variant ' MatchŠÖ”‚ÌŒ‹‰ÊiŒŸõ‚³‚ê‚½ˆÊ’uj‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-    Dim rowNumber As Long ' s”Ô†‚ğŠi”[‚·‚é‚½‚ß‚Ì•Ï”
-    Dim Sheet1 As Worksheet ' Å‰‚ÌƒV[ƒgiSheet1j‚ğŠi”[‚·‚é‚½‚ß‚ÌWorksheetƒIƒuƒWƒFƒNƒg
-    Dim Sheet2 As Worksheet ' 2”Ô–Ú‚ÌƒV[ƒgiSheet2j‚ğŠi”[‚·‚é‚½‚ß‚ÌWorksheetƒIƒuƒWƒFƒNƒg
-    Dim MismatchRows As String ' •sˆê’vs‚ğŠi”[‚·‚é‚½‚ß‚Ì•¶š—ñ•Ï”
-    Dim selectedSheetIndex As Long
+Sub compareyaruyara_hanteiyouhi()
+    '============================
+    ' AHEADã®åˆ¤å®šè¦å¦ã®ç¢ºèªé …ç›®ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã—ã¦ããŸã‚·ãƒ¼ãƒˆã¨
+    'ã€Œã‚„ã‚‹ã‚„ã‚‰ã€ã‚·ãƒ¼ãƒˆã¨ã®ã€Œå®¤èª²ã€ã€Œåˆ¤å®šè¦å¦ã€ã®ä¸€è‡´ã‚’ç¢ºèªã™ã‚‹ãƒã‚¯ãƒ­ã€‚
+    ' ä¸ä¸€è‡´ãŒã‚ã‚Œã°ã€ã‚»ãƒ«ã‚’èµ¤è‰²ã«ã—ã¦ã€åˆ¥ã‚·ãƒ¼ãƒˆã«è¨˜éŒ²ã—ã¾ã™ã€‚
+    '============================
+    Dim requirementNumber As String ' é¸æŠã•ã‚ŒãŸè¦ä»¶ç•ªå·ï¼ˆç¾åœ¨ã¯æœªä½¿ç”¨ï¼‰
+    Dim requirementRow As Long ' è¦ä»¶ç•ªå·ãŒã‚ã‚‹è¡Œç•ªå·ï¼ˆç¾åœ¨ã¯æœªä½¿ç”¨ï¼‰
+    Dim roomKaa As String ' æ¯”è¼ƒã‚·ãƒ¼ãƒˆã®å®¤èª²ã®å€¤
+    Dim yColumnValue As String ' ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆã®åˆ¤å®šè¦å¦ã®å€¤
+    Dim roomColumn As Long ' å®¤èª²ã®åˆ—ç•ªå·ï¼ˆã‚„ã‚‹ã‚„ã‚‰ï¼‰
+    Dim judgementColumn As Long ' åˆ¤å®šè¦å¦ã®åˆ—ç•ªå·ï¼ˆã‚„ã‚‹ã‚„ã‚‰ï¼‰
+    Dim lastRow1 As Long ' ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆã®æœ€çµ‚è¡Œ
+    Dim lastRow2 As Long ' æ¯”è¼ƒã‚·ãƒ¼ãƒˆã®æœ€çµ‚è¡Œ
+    Dim matchResult As Variant ' Matché–¢æ•°ã®çµæœï¼ˆè¦‹ã¤ã‹ã£ãŸè¡Œä½ç½®ï¼‰ï¼ˆç¾åœ¨ã¯æœªä½¿ç”¨ï¼‰
+    Dim rowNumber As Long ' ãƒ«ãƒ¼ãƒ—ç”¨ã®è¡Œç•ªå·
+    Dim Sheet1 As Worksheet ' ã€Œã‚„ã‚‹ã‚„ã‚‰ã€ã‚·ãƒ¼ãƒˆ
+    Dim Sheet2 As Worksheet ' æ¯”è¼ƒå¯¾è±¡ã®ã‚·ãƒ¼ãƒˆ
+    Dim MismatchRows As String ' ä¸ä¸€è‡´è¡Œã®è¨˜éŒ²
+    Dim selectedSheetIndex As Long ' ãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒé¸ã‚“ã ã‚·ãƒ¼ãƒˆç•ªå·
+    Dim i As Long
 
-    MismatchRows = "" ' ‰Šú‰»
+    MismatchRows = "" ' ä¸ä¸€è‡´è¡Œã®è¨˜éŒ²ã‚’åˆæœŸåŒ–
 
-    ' ƒV[ƒg1‚ğu‚â‚é‚â‚çv‚Æ‚¢‚¤–¼‘O‚ÅŒÅ’è
+    '------------------------------------
+    ' Step1: ã€Œã‚„ã‚‹ã‚„ã‚‰ã€ã‚·ãƒ¼ãƒˆãŒã‚ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
+    '------------------------------------
     On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("‚â‚é‚â‚ç")
+    Set Sheet1 = ThisWorkbook.Sheets("ã‚„ã‚‹ã‚„ã‚‰")
     On Error GoTo 0
     If Sheet1 Is Nothing Then
-        MsgBox "‚â‚é‚â‚çƒV[ƒg‚ª‚ ‚è‚Ü‚¹‚ñB", vbExclamation
+        MsgBox "ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆãŒã‚ã‚Šã¾ã›ã‚“ã€‚", vbExclamation
         Exit Sub
     End If
-
-    ' ƒ†[ƒU[‚É—vŒ”Ô†‚ğ‘I‘ğ‚³‚¹‚é
     lastRow1 = Sheet1.Cells(Sheet1.Rows.Count, "A").End(xlUp).Row
-    Dim requirementList As String
-    Dim i As Long
-    For i = 2 To lastRow1
-        requirementList = requirementList & Sheet1.Cells(i, "A").Value & vbCrLf
+
+    '------------------------------------
+    ' Step2: æ¯”è¼ƒã™ã‚‹ã‚·ãƒ¼ãƒˆã‚’é¸ã°ã›ã‚‹
+    '------------------------------------
+    Dim sheetList As String
+    sheetList = "ã‚·ãƒ¼ãƒˆåãƒªã‚¹ãƒˆ:" & vbCrLf
+    For i = 1 To ThisWorkbook.Sheets.Count
+        sheetList = sheetList & i & ". " & ThisWorkbook.Sheets(i).Name & vbCrLf
     Next i
 
-    requirementNumber = InputBox("ˆÈ‰º‚Ì—vŒ”Ô†‚©‚ç‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢:" & vbCrLf & requirementList, "—vŒ”Ô†‘I‘ğ")
-
-    ' —vŒ”Ô†‚ª“ü—Í‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÍI—¹
-    If Len(Trim(requirementNumber)) = 0 Then
-        MsgBox "—vŒ”Ô†‚ª“ü—Í‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB", vbExclamation
-        Exit Sub
-    End If
-
-    ' ƒV[ƒg1‚ÌA—ñ‚ğŒŸõ‚µ‚Äˆê’v‚·‚é—vŒ”Ô†‚ğ’T‚·
-    matchResult = Application.Match(requirementNumber, Sheet1.Range("A2:A" & lastRow1), 0)
-
-    ' ˆê’v‚µ‚È‚¢ê‡AƒGƒ‰[ƒƒbƒZ[ƒW‚ğ•\¦‚µ‚ÄI—¹
-    If IsError(matchResult) Then
-        MsgBox "w’è‚³‚ê‚½—vŒ”Ô†‚ÍƒV[ƒg1‚ÌA—ñ‚É‘¶İ‚µ‚Ü‚¹‚ñB", vbExclamation
-        Exit Sub
-    End If
-
-    ' ˆê’v‚µ‚½ê‡A‚»‚Ìs‚Ì”Ô†‚ğæ“¾
-    requirementRow = matchResult + 1 ' matchResult‚Í1‚©‚çn‚Ü‚é‚½‚ß’²®
-
-    ' ƒV[ƒg–¼ƒŠƒXƒg‚Ìì¬
-    Dim sheetList As String
-    sheetList = "ƒV[ƒg–¼ƒŠƒXƒg:" & vbCrLf
-    For rowIdx = 1 To ThisWorkbook.Sheets.Count
-        sheetList = sheetList & rowIdx & ". " & ThisWorkbook.Sheets(rowIdx).Name & vbCrLf
-    Next rowIdx
-
-    ' ƒV[ƒg2‚ğ‘I‘ği”Ô†‚Å‘I‚Ôj
-    selectedSheetIndex = CInt(InputBox("”äŠr‚µ‚½‚¢ƒV[ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢:" & vbCrLf & sheetList))
+    selectedSheetIndex = CInt(InputBox("æ¯”è¼ƒã—ãŸã„ã‚·ãƒ¼ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„:" & vbCrLf & sheetList))
     If selectedSheetIndex < 1 Or selectedSheetIndex > ThisWorkbook.Sheets.Count Then
-        MsgBox "–³Œø‚È”Ô†‚Å‚·B"
+        MsgBox "ç„¡åŠ¹ãªç•ªå·ã§ã™ã€‚"
         Exit Sub
     End If
     Set Sheet2 = ThisWorkbook.Sheets(selectedSheetIndex)
 
-    ' ƒV[ƒg1‚Ì1s–Ú‚©‚çuº‰Ûv‚Æu”»’è—v”Ûv‚Ì—ñ‚ğŒŸõ
-    roomColumn = Application.Match("º‰Û", Sheet1.Rows(1), 0)
-    judgementColumn = Application.Match("”»’è—v”Û", Sheet1.Rows(1), 0)
+    '------------------------------------
+    ' Step3: ã€Œå®¤èª²ã€ã¨ã€Œåˆ¤å®šè¦å¦ã€åˆ—ã®ç•ªå·ã‚’ç‰¹å®š
+    '------------------------------------
+    roomColumn = Application.Match("å®¤èª²", Sheet1.Rows(1), 0)
+    judgementColumn = Application.Match("åˆ¤å®šè¦å¦", Sheet1.Rows(1), 0)
 
-    ' uº‰Ûv—ñ‚Æu”»’è—v”Ûv—ñ‚ªŒ©‚Â‚©‚ç‚È‚¢ê‡AƒGƒ‰[‚ğo—Í‚µ‚ÄI—¹
     If IsError(roomColumn) Then
-        MsgBox """º‰Û""—ñ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B"
+        MsgBox """å®¤èª²""åˆ—ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚"
         Exit Sub
     End If
     If IsError(judgementColumn) Then
-        MsgBox """”»’è—v”Û""—ñ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B"
+        MsgBox """åˆ¤å®šè¦å¦""åˆ—ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚"
         Exit Sub
     End If
 
-    ' ƒV[ƒg2‚ÌÅIs‚ğæ“¾
+    '------------------------------------
+    ' Step4: æ¯”è¼ƒã‚·ãƒ¼ãƒˆã®å…¨è¡Œã¨æ¯”è¼ƒå‡¦ç†é–‹å§‹
+    '------------------------------------
     lastRow2 = Sheet2.Cells(Sheet2.Rows.Count, 1).End(xlUp).Row
 
-    ' ƒV[ƒg2‚Ì2s–Ú‚©‚çÅIs‚Ü‚Åƒ‹[ƒv
-    For rowNumber = 2 To lastRow2
-        ' ƒV[ƒg2‚ÌA—ñiº‰Ûj‚ğæ“¾
-        roomKaa = Sheet2.Cells(rowNumber, 1).Value
+    For i = 2 To lastRow1
+        For rowNumber = 2 To lastRow2
+            roomKaa = Sheet2.Cells(rowNumber, 1).Value
 
-        ' ƒV[ƒg1‚Ìˆê’v‚·‚é—vŒ”Ô†‚Ìs‚Åuº‰Ûv‚Ì’l‚ğæ“¾
-        If Sheet1.Cells(requirementRow, roomColumn).Value = roomKaa Then
-            ' º‰Û‚ªˆê’v‚µ‚½ê‡A”»’è—v”Û—ñ‚Ì’l‚ğæ“¾
-            yColumnValue = Sheet1.Cells(requirementRow, judgementColumn).Value
+            If Sheet1.Cells(i, roomColumn).Value = roomKaa Then
+                yColumnValue = Sheet1.Cells(i, judgementColumn).Value
 
-            ' ƒV[ƒg2‚ÌC—ñ‚Æˆê’v‚µ‚Ä‚¢‚é‚©Šm”F
-            If Trim(yColumnValue) = "" And Trim(Sheet2.Cells(rowNumber, 3).Value) = "" Then
-                ' —¼•û‚ª‹ó”’‚Ìê‡‚Í‰½‚à‚µ‚È‚¢
-            ElseIf yColumnValue = Sheet2.Cells(rowNumber, 3).Value Then
-                ' ˆê’v‚·‚éê‡‚Í‰½‚à‚µ‚È‚¢
-            Else
-                ' •sˆê’v‚Ìê‡AƒV[ƒg1‚Ì”»’è—v”Û—ñ‚ÆƒV[ƒg2‚ÌC—ñ‚ğÔF‚Å“h‚è‚Â‚Ô‚·
-                Sheet1.Cells(requirementRow, judgementColumn).Interior.Color = RGB(255, 0, 0) ' ƒV[ƒg1‚Ì”»’è—v”Û—ñ‚ğÔF
-                Sheet2.Cells(rowNumber, 3).Interior.Color = RGB(255, 0, 0) ' ƒV[ƒg2‚ÌC—ñ‚ğÔF
-                ' •sˆê’vs‚Ìî•ñ‚ğûW
-                MismatchRows = MismatchRows & "ƒV[ƒg1s" & requirementRow & "‚ÆƒV[ƒg2s" & rowNumber & vbCrLf
+                If Trim(yColumnValue) = "" And Trim(Sheet2.Cells(rowNumber, 3).Value) = "" Then
+                    ' ä¸¡æ–¹ç©ºæ¬„ â†’ OK
+                ElseIf yColumnValue = Sheet2.Cells(rowNumber, 3).Value Then
+                    ' ä¸€è‡´ â†’ OK
+                Else
+                    ' ä¸ä¸€è‡´ â†’ èµ¤ãå¡—ã‚‹
+                    Sheet1.Cells(i, judgementColumn).Interior.Color = RGB(255, 0, 0)
+                    Sheet2.Cells(rowNumber, 3).Interior.Color = RGB(255, 0, 0)
+                    MismatchRows = MismatchRows & "ã‚„ã‚‹ã‚„ã‚‰è¡Œ" & i & " ã¨ " & Sheet2.Name & " è¡Œ" & rowNumber & vbCrLf
+                End If
             End If
-        End If
-    Next rowNumber
+        Next rowNumber
+    Next i
 
-    ' •sˆê’vs‚ª‘¶İ‚·‚éê‡AV‚µ‚¢ƒV[ƒg‚Éƒƒ‚‚ğì¬
+    '------------------------------------
+    ' Step5: ä¸ä¸€è‡´ãŒã‚ã‚Œã°ã€æ–°ã—ã„ã‚·ãƒ¼ãƒˆã«è¨˜éŒ²
+    '------------------------------------
     If MismatchRows <> "" Then
         Call WriteMismatchToNewSheet(MismatchRows)
     Else
-        MsgBox "•sˆê’v‚ÍŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B"
+        MsgBox "ä¸ä¸€è‡´ã¯è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚"
     End If
 End Sub
 
+'===========================
+' ä¸ä¸€è‡´è¡Œã‚’æ–°ã—ã„ã‚·ãƒ¼ãƒˆã«æ›¸ãå‡ºã™ã‚µãƒ–å‡¦ç†
+'===========================
 Sub WriteMismatchToNewSheet(MismatchRows As String)
     Dim NewSheet As Worksheet
     Dim Lines As Variant
     Dim RowIndex As Long
 
-    ' V‚µ‚¢ƒV[ƒg‚ğ’Ç‰Á
+    ' æ–°ã—ã„ã‚·ãƒ¼ãƒˆã‚’ä½œæˆ
     Set NewSheet = ThisWorkbook.Sheets.Add
-    NewSheet.Name = "•sˆê’vsi”»’è—v”Ûj"
+    NewSheet.Name = "ä¸ä¸€è‡´è¡Œï¼ˆåˆ¤å®šè¦å¦ï¼‰"
 
-    ' ƒwƒbƒ_[‚ğ‘‚«‚Ş
-    NewSheet.Cells(1, 1).Value = "•sˆê’vs‚ÌÚ×"
+    ' ãƒ˜ãƒƒãƒ€ãƒ¼è¡Œ
+    NewSheet.Cells(1, 1).Value = "ä¸ä¸€è‡´è¡Œã®è©³ç´°"
 
-    ' mismatchRows ‚ğ‰üs‚Å•ªŠ„‚µ‚Ä”z—ñ‚ÉŠi”[
+    ' æ”¹è¡Œã”ã¨ã«åˆ†å‰²ã—ã¦æ›¸ãå‡ºã—
     Lines = Split(MismatchRows, vbCrLf)
-
-    ' •sˆê’vî•ñ‚ğ‘‚«‚Ş
     For RowIndex = LBound(Lines) To UBound(Lines)
         If Lines(RowIndex) <> "" Then
             NewSheet.Cells(RowIndex + 2, 1).Value = Lines(RowIndex)
         End If
     Next RowIndex
 
-    ' Š®—¹’Ê’m
-    MsgBox "•sˆê’vs‚ÌÚ×‚ªV‚µ‚¢ƒV[ƒg‚É•Û‘¶‚³‚ê‚Ü‚µ‚½B"
+    MsgBox "ä¸ä¸€è‡´è¡Œã®è©³ç´°ãŒæ–°ã—ã„ã‚·ãƒ¼ãƒˆã«ä¿å­˜ã•ã‚Œã¾ã—ãŸã€‚"
 End Sub
 
-
-   
