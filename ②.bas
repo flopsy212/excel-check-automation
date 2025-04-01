@@ -1,7 +1,7 @@
 Sub checkMacro()
 '============================
-' 「やるやら表」の「採否マーク列」と、
-' 「AHEAD要件一覧表ビュー」の「仕向列」を比較して、
+' 「統合表」の「採否マーク列」と、
+' 「要件一覧ビュー要件一覧表ビュー」の「仕向列」を比較して、
 ' 値が一致しない箇所を赤に染め、不一致内容を別シートに記録するマクロ
 '============================
     Dim range1 As Range, range2 As Range ' 比較する2つの列範囲
@@ -14,8 +14,8 @@ Sub checkMacro()
     Dim Sheet1 As Worksheet, Sheet2 As Worksheet ' 比較対象の2シート
     Dim sheetList As String ' シート名の一覧（選択用）
     Dim sheetIndex1 As Integer, sheetIndex2 As Integer ' ユーザーが選択したシート番号
-    Dim A0NoCol As Long ' 「A0 No.」の列番号
-    Dim A0NoValue As String ' 「A0 No.」の値（先頭4桁）
+    Dim 管理IDCol As Long ' 「管理ID.」の列番号
+    Dim 管理IDValue As String ' 「管理ID.」の値（先頭4桁）
 
 
 '-------------------------------
@@ -28,7 +28,7 @@ Sub checkMacro()
     Next rowIdx
 
     ' ユーザーに比較するシート1を選択させる
-    sheetIndex1 = Application.InputBox("比較元のシートを選択してください（番号を入力）:" & vbCrLf & sheetList, "シート選択", Type:=1)
+    sheetIndex1 = Application.InputBox("統合シートを選択してください（番号を入力）:" & vbCrLf & sheetList, "シート選択", Type:=1)
     If sheetIndex1 < 1 Or sheetIndex1 > ThisWorkbook.Sheets.Count Then
         MsgBox "正しいシート番号を入力してください。", vbExclamation
         Exit Sub
@@ -48,22 +48,22 @@ Sub checkMacro()
     
 
 '-------------------------------
-' Step2: 「A0 No.」列からキー値（先頭4桁）を取得
+' Step2: 「管理ID.」列からキー値（先頭4桁）を取得
 '-------------------------------
     
     On Error Resume Next
-    A0NoCol = Application.Match("A0 No.", Sheet2.Rows(1), 0)
+    管理IDCol = Application.Match("管理ID.", Sheet2.Rows(1), 0)
     On Error GoTo 0
     
     ' エラー処理
-    If A0NoCol = 0 Then
-        MsgBox """A0 No.""" & " ラベルが見つかりませんでした。", vbExclamation
+    If 管理IDCol = 0 Then
+        MsgBox """管理ID.""" & " ラベルが見つかりませんでした。", vbExclamation
         Exit Sub
     End If
 
-    ' 「A0 No.」列の2行目の値の左から4文字を取得
-    A0NoValue = Left(Sheet2.Cells(2, A0NoCol).Value, 4)
-    keyValue = Trim(A0NoValue)
+    ' 「管理ID.」列の2行目の値の左から4文字を取得
+    管理IDValue = Left(Sheet2.Cells(2, 管理IDCol).Value, 4)
+    keyValue = Trim(管理IDValue)
     
 
 '-------------------------------
