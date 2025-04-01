@@ -23,7 +23,7 @@
 | `checkMacro` | 【中間チェック】 | 2つの任意のシートの指定列を比較。不一致セルを赤く塗り、結果を別シートに出力 |
 | `compareyaruyara_hanteiyouhi` | 【室課・判定要否の一致確認】 | 「やるやら」シートと別シート間で、室課と判定要否の内容が一致しているかチェック |
 | `compareYaruyaraColumns` | 【中間チェック】 | 「やるやら」シートと別シートの任意列を最終チェック。不一致があれば赤塗り＆詳細出力 |
-| `finalLastcheckfiles_macrosheet` | 【役割・Email整合性確認】 | 判定者シートと他のシート間で、役割とEmailが一致しているかをチェック |
+| `Lastcheckfiles_macrosheet` | 【役割・Email整合性確認】 | 判定者シートと他のシート間で、役割とEmailが一致しているかをチェック |
 
 ## 📊 マクロ全体の流れ（フローチャート）
 ```mermaid
