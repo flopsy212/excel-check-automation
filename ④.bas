@@ -1,10 +1,9 @@
-Sub compareYaruyaraColumns()
+Sub compareTasksColumns()
     '============================
     ' 任意列の最終チェック
-    ' やるやらシートと他の任意のシートの特定列を比較し、
+    ' 統合シートと他の任意のシートの特定列を比較し、
     ' 不一致があればセルを赤く塗り、不一致内容を別シートに記録する。
     '============================
-
     Dim range1 As Range, range2 As Range
     Dim cell1 As Range, cell2 As Range
     Dim mismatchDetails As String
@@ -16,17 +15,17 @@ Sub compareYaruyaraColumns()
     Dim P2Value As String
     Dim sheetList As String, sheetIndex As Integer
     Dim lastRow2 As Long
-    Dim A0NoCol As Long
-    Dim A0NoValue As String
+    Dim 管理IDCol As Long
+    Dim 管理IDValue As String
 
     '----------------------------------------
-    ' Step1: 「やるやら」シートの取得
+    ' Step1: 「統合」シートの取得
     '----------------------------------------
     On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("やるやら")
+    Set Sheet1 = ThisWorkbook.Sheets("統合")
     On Error GoTo 0
     If Sheet1 Is Nothing Then
-        MsgBox "「やるやら」シートが見つかりません。処理を終了します。", vbExclamation
+        MsgBox "「統合」シートが見つかりません。処理を終了します。", vbExclamation
         Exit Sub
     End If
 
@@ -46,20 +45,20 @@ Sub compareYaruyaraColumns()
     Set Sheet2 = ThisWorkbook.Sheets(sheetIndex)
 
     '----------------------------------------
-    ' Step3: 比較対象シートから「A0 No.」列を探し、キー値を取得
+    ' Step3: 比較対象シートから「管理ID.」列を探し、キー値を取得
     '----------------------------------------
-    A0NoCol = Application.Match("A0 No.", Sheet2.Rows(1), 0)
-    If Not IsError(A0NoCol) Then
-        A0NoValue = Left(Sheet2.Cells(2, A0NoCol).Value, 4)
+    管理IDCol = Application.Match("管理ID.", Sheet2.Rows(1), 0)
+    If Not IsError(管理IDCol) Then
+        管理IDValue = Left(Sheet2.Cells(2, 管理IDCol).Value, 4)
     Else
-        MsgBox """A0 No.""" & " ラベルが見つかりませんでした。"
+        MsgBox """管理ID.""" & " ラベルが見つかりませんでした。"
         Exit Sub
     End If
 
-    keyValue = Trim(A0NoValue)
+    keyValue = Trim(管理IDValue)
 
     '----------------------------------------
-    ' Step4: やるやらシートのA列から、キー値で行範囲を特定
+    ' Step4: 統合シートのA列から、キー値で行範囲を特定
     '----------------------------------------
     startRow1 = Sheet1.Columns(1).Find(What:=keyValue, LookIn:=xlValues, LookAt:=xlWhole).Row
     endRow1 = Sheet1.Columns(1).Find(What:=keyValue & "*", LookIn:=xlValues, LookAt:=xlWhole, SearchDirection:=xlPrevious).Row
@@ -70,11 +69,11 @@ Sub compareYaruyaraColumns()
     End If
 
     '----------------------------------------
-    ' Step5: 比較したい列（やるやら・比較シート）をユーザーに選ばせる
+    ' Step5: 比較したい列（統合・比較シート）をユーザーに選ばせる
     '----------------------------------------
-    Set range1 = Application.InputBox("比較する列をやるやらシートで選択してください（例: =やるやら!$B:$B）。", Type:=8)
-    If range1 Is Nothing Or range1.Worksheet.Name <> "やるやら" Then
-        MsgBox "やるやらシートの列が正しく選択されていません。処理を終了します。", vbExclamation
+    Set range1 = Application.InputBox("比較する列を統合シートで選択してください（例: =統合!$B:$B）。", Type:=8)
+    If range1 Is Nothing Or range1.Worksheet.Name <> "統合" Then
+        MsgBox "統合シートの列が正しく選択されていません。処理を終了します。", vbExclamation
         Exit Sub
     End If
 
