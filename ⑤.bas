@@ -1,108 +1,124 @@
-Attribute VB_Name = "‡D"
-Sub finalLastcheckfiles_macrosheet() ' ”»’èÒƒV[ƒg‚Ì–ğŠ„‚ÆEmail—ñ‚¾‚¯“ü—Í‚µ‚ÄAHEAD‚Æ‡’v‚·‚é‚©Šm”F
-    Dim Sheet1 As Worksheet
-    Dim Sheet2 As Worksheet
-    Dim lastRow1 As Long
-    Dim lastRow2 As Long
+Sub Lastcheckfiles_macrosheet()
+    '============================
+    ' åˆ¤å®šè€…ã‚·ãƒ¼ãƒˆã®ã€Œå½¹å‰²ã€ã¨ã€ŒEmailã€åˆ—ã‚’ã€
+    ' AHEADã‹ã‚‰ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã•ã‚ŒãŸåˆ¥ã‚·ãƒ¼ãƒˆã¨ç…§åˆã—ã€
+    ' è¡Œã”ã¨ã®ä¸€è‡´ãƒ»ä¸ä¸€è‡´ã‚’ç¢ºèªã™ã‚‹ãƒã‚¯ãƒ­ã€‚
+    '============================
+
+    Dim Sheet1 As Worksheet ' åˆ¤å®šè€…ã‚·ãƒ¼ãƒˆï¼ˆå›ºå®šï¼‰
+    Dim Sheet2 As Worksheet ' æ¯”è¼ƒå¯¾è±¡ã®ã‚·ãƒ¼ãƒˆï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼é¸æŠï¼‰
+    Dim lastRow1 As Long, lastRow2 As Long
     Dim rowIdx As Long
-    Dim RoleColumn2 As Long
-    Dim EmailColumn2 As Long
+    Dim RoleColumn2 As Long, EmailColumn2 As Long
     Dim mismatchDetails As String
 
-    ' ƒV[ƒg1‚ğİ’è
+    '----------------------------------------
+    ' Step1: ã€Œåˆ¤å®šè€…ã€ã‚·ãƒ¼ãƒˆã‚’å–å¾—
+    '----------------------------------------
     On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("”»’èÒ")
+    Set Sheet1 = ThisWorkbook.Sheets("åˆ¤å®šè€…")
     On Error GoTo 0
     If Sheet1 Is Nothing Then
-        MsgBox "‚â‚é‚â‚çƒV[ƒg‚ª‚ ‚è‚Ü‚¹‚ñB", vbExclamation
+        MsgBox "ã‚„ã‚‹ã‚„ã‚‰ã‚·ãƒ¼ãƒˆãŒã‚ã‚Šã¾ã›ã‚“ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ƒV[ƒg2‚ğ‘I‘ğ
+    '----------------------------------------
+    ' Step2: æ¯”è¼ƒå¯¾è±¡ã‚·ãƒ¼ãƒˆã‚’é¸æŠã•ã›ã‚‹
+    '----------------------------------------
     Dim selectedSheetIndex As Integer
     Dim SheetNameList As String
-    SheetNameList = "ƒV[ƒg–¼ƒŠƒXƒg:" & vbCrLf
+    SheetNameList = "ã‚·ãƒ¼ãƒˆåãƒªã‚¹ãƒˆ:" & vbCrLf
     For rowIdx = 1 To ThisWorkbook.Sheets.Count
         SheetNameList = SheetNameList & rowIdx & ". " & ThisWorkbook.Sheets(rowIdx).Name & vbCrLf
     Next rowIdx
 
-    selectedSheetIndex = CInt(InputBox("”äŠr‚µ‚½‚¢ƒV[ƒg‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B" & vbCrLf & SheetNameList))
+    selectedSheetIndex = CInt(InputBox("æ¯”è¼ƒã—ãŸã„ã‚·ãƒ¼ãƒˆã‚’é¸æŠã—ã¦ãã ã•ã„ã€‚" & vbCrLf & SheetNameList))
     If selectedSheetIndex < 1 Or selectedSheetIndex > ThisWorkbook.Sheets.Count Then
-        MsgBox "–³Œø‚È”Ô†‚Å‚·B"
+        MsgBox "ç„¡åŠ¹ãªç•ªå·ã§ã™ã€‚"
         Exit Sub
     End If
 
     Set Sheet2 = ThisWorkbook.Sheets(selectedSheetIndex)
 
-    ' ƒV[ƒg1‚ÆƒV[ƒg2‚ÌÅIs‚ğæ“¾
+    '----------------------------------------
+    ' Step3: å„ã‚·ãƒ¼ãƒˆã®æœ€çµ‚è¡Œå–å¾—
+    '----------------------------------------
     lastRow1 = Sheet1.Cells(Sheet1.Rows.Count, 1).End(xlUp).Row
     lastRow2 = Sheet2.Cells(Sheet2.Rows.Count, 1).End(xlUp).Row
 
-    ' ƒV[ƒg2‚Ìu–ğŠ„v‚ÆuEmailv—ñ‚ğ“Á’è
+    '----------------------------------------
+    ' Step4: ã‚·ãƒ¼ãƒˆ2ã®ã€Œå½¹å‰²ã€ã¨ã€ŒEmailã€åˆ—ã®åˆ—ç•ªå·ã‚’ç‰¹å®š
+    '----------------------------------------
     RoleColumn2 = 0
     EmailColumn2 = 0
     For ColIdx = 1 To Sheet2.Cells(1, Columns.Count).End(xlToLeft).Column
-        If Trim(Sheet2.Cells(1, ColIdx).Value) = "–ğŠ„" Then
+        If Trim(Sheet2.Cells(1, ColIdx).Value) = "å½¹å‰²" Then
             RoleColumn2 = ColIdx
         ElseIf Trim(Sheet2.Cells(1, ColIdx).Value) = "Email" Then
             EmailColumn2 = ColIdx
         End If
     Next ColIdx
 
-    ' ƒGƒ‰[ˆ—
     If RoleColumn2 = 0 Or EmailColumn2 = 0 Then
-        MsgBox "ƒV[ƒg2‚É•K—v‚È—ñi–ğŠ„‚Ü‚½‚ÍEmailj‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB", vbExclamation
+        MsgBox "ã‚·ãƒ¼ãƒˆ2ã«å¿…è¦ãªåˆ—ï¼ˆå½¹å‰²ã¾ãŸã¯Emailï¼‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚", vbExclamation
         Exit Sub
     End If
 
-    ' ”äŠrŠJn
+    '----------------------------------------
+    ' Step5: å„è¡Œã”ã¨ã«ã€Œå½¹å‰²ã€ã€ŒEmailã€ã‚’æ¯”è¼ƒ
+    '----------------------------------------
     mismatchDetails = ""
     For rowIdx = 2 To Application.WorksheetFunction.Min(lastRow1, lastRow2)
         Dim Role1 As String, Email1 As String
         Dim Role2 As String, Email2 As String
 
-        ' ƒV[ƒg1‚ÆƒV[ƒg2‚Ì’l‚ğæ“¾
-        Role1 = Trim(Sheet1.Cells(rowIdx, 1).Value) ' ƒV[ƒg1‚Ì–ğŠ„ (A—ñ)
-        Email1 = Trim(Sheet1.Cells(rowIdx, 2).Value) ' ƒV[ƒg1‚ÌEmail (B—ñ)
-        Role2 = Trim(Sheet2.Cells(rowIdx, RoleColumn2).Value) ' ƒV[ƒg2‚Ì–ğŠ„
-        Email2 = Trim(Sheet2.Cells(rowIdx, EmailColumn2).Value) ' ƒV[ƒg2‚ÌEmail
+        ' åˆ¤å®šè€…ã‚·ãƒ¼ãƒˆï¼ˆã‚·ãƒ¼ãƒˆ1ï¼‰ã®å€¤å–å¾—
+        Role1 = Trim(Sheet1.Cells(rowIdx, 1).Value)   ' Aåˆ—: å½¹å‰²
+        Email1 = Trim(Sheet1.Cells(rowIdx, 2).Value)  ' Båˆ—: Email
 
-        ' ”äŠr‚µ‚Ä•sˆê’v‚ğ‹L˜^
+        ' æ¯”è¼ƒå¯¾è±¡ã‚·ãƒ¼ãƒˆï¼ˆã‚·ãƒ¼ãƒˆ2ï¼‰ã®å€¤å–å¾—
+        Role2 = Trim(Sheet2.Cells(rowIdx, RoleColumn2).Value)
+        Email2 = Trim(Sheet2.Cells(rowIdx, EmailColumn2).Value)
+
+        ' å€¤ãŒä¸€è‡´ã—ã¦ã„ãªã‘ã‚Œã°è¨˜éŒ²
         If Role1 <> Role2 Or Email1 <> Email2 Then
-            mismatchDetails = mismatchDetails & "s " & rowIdx & " ‚É•sˆê’v‚ª‚ ‚è‚Ü‚·:" & vbCrLf & _
-                             "  ƒV[ƒg1 - –ğŠ„: " & Role1 & ", Email: " & Email1 & vbCrLf & _
-                             "  ƒV[ƒg2 - –ğŠ„: " & Role2 & ", Email: " & Email2 & vbCrLf & vbCrLf
+            mismatchDetails = mismatchDetails & "è¡Œ " & rowIdx & " ã«ä¸ä¸€è‡´ãŒã‚ã‚Šã¾ã™:" & vbCrLf & _
+                             "  ã‚·ãƒ¼ãƒˆ1 - å½¹å‰²: " & Role1 & ", Email: " & Email1 & vbCrLf & _
+                             "  ã‚·ãƒ¼ãƒˆ2 - å½¹å‰²: " & Role2 & ", Email: " & Email2 & vbCrLf & vbCrLf
         End If
     Next rowIdx
 
-    ' Œ‹‰Ê‚ğV‚µ‚¢ƒV[ƒg‚Éo—Í
+    '----------------------------------------
+    ' Step6: çµæœã‚’è¡¨ç¤ºãƒ»å‡ºåŠ›
+    '----------------------------------------
     If mismatchDetails <> "" Then
         Call WriteMismatchToNewSheet(mismatchDetails)
-        MsgBox "•sˆê’v‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½BÚ×‚ÍV‚µ‚¢ƒV[ƒg‚ğŠm”F‚µ‚Ä‚­‚¾‚³‚¢B", vbInformation
+        MsgBox "ä¸ä¸€è‡´ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚è©³ç´°ã¯æ–°ã—ã„ã‚·ãƒ¼ãƒˆã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚", vbInformation
     Else
-        MsgBox "‘S‚Äˆê’v‚µ‚Ä‚¢‚Ü‚·B", vbInformation
+        MsgBox "å…¨ã¦ä¸€è‡´ã—ã¦ã„ã¾ã™ã€‚", vbInformation
     End If
 End Sub
 
+'===========================
+' ä¸ä¸€è‡´è¡Œã‚’æ›¸ãå‡ºã™å…±é€šã‚µãƒ–å‡¦ç†
+'===========================
 Sub WriteMismatchToNewSheet(MismatchRows As String)
     Dim NewSheet As Worksheet
     Dim Lines As Variant
     Dim RowIndex As Long
 
-    ' V‚µ‚¢ƒV[ƒg‚ğ’Ç‰Á
+    ' æ–°ã—ã„ã‚·ãƒ¼ãƒˆã‚’ä½œæˆ
     Set NewSheet = ThisWorkbook.Sheets.Add
-    NewSheet.Name = "•sˆê’vsiƒtƒ@ƒCƒiƒ‹ÅIj"
+    NewSheet.Name = "ä¸ä¸€è‡´è¡Œï¼ˆæœ€çµ‚ãƒã‚§ãƒƒã‚¯ï¼‰"
 
-    ' ƒwƒbƒ_[‚ğ‘‚«‚Ş
-    NewSheet.Cells(1, 1).Value = "•sˆê’vs‚ÌÚ×"
+    ' ãƒ˜ãƒƒãƒ€ãƒ¼è¡Œã®å‡ºåŠ›
+    NewSheet.Cells(1, 1).Value = "ä¸ä¸€è‡´è¡Œã®è©³ç´°"
 
-    ' MismatchRows ‚ğ‰üs‚Å•ªŠ„‚µ‚Ä”z—ñ‚ÉŠi”[
+    ' æ”¹è¡ŒåŒºåˆ‡ã‚Šã§1è¡Œãšã¤æ›¸ãå‡ºã—
     Lines = Split(MismatchRows, vbCrLf)
-
-    ' •sˆê’vî•ñ‚ğ‘‚«‚Ş
     For RowIndex = LBound(Lines) To UBound(Lines)
         If Lines(RowIndex) <> "" Then
-            ' Œ³‚Ì•¶š—ñ‚ğ‚»‚Ì‚Ü‚Ü‘‚«‚Ş
             NewSheet.Cells(RowIndex + 2, 1).Value = Lines(RowIndex)
         End If
     Next RowIndex
