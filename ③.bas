@@ -1,20 +1,20 @@
-Sub compareyaruyara_hanteiyouhi()
+Sub compareTasks_decisionFlag()
     '============================
-    ' AHEADの判定要否の確認項目からファイルをエクスポートしてきたシートと
-    '「やるやら」シートとの「室課」「判定要否」の一致を確認するマクロ。
+    ' 要件一覧ビューの判定要否の確認項目からファイルをエクスポートしてきたシートと
+    '「統合」シートとの「部署」「判定要否」の一致を確認するマクロ。
     ' 不一致があれば、セルを赤色にして、別シートに記録します。
     '============================
-    Dim requirementNumber As String ' 選択された要件番号（現在は未使用）
+    
     Dim requirementRow As Long ' 要件番号がある行番号（現在は未使用）
-    Dim roomKaa As String ' 比較シートの室課の値
-    Dim yColumnValue As String ' やるやらシートの判定要否の値
-    Dim roomColumn As Long ' 室課の列番号（やるやら）
-    Dim judgementColumn As Long ' 判定要否の列番号（やるやら）
-    Dim lastRow1 As Long ' やるやらシートの最終行
+    Dim roomKaa As String ' 比較シートの部署の値
+    Dim yColumnValue As String ' 統合シートの判定要否の値
+    Dim roomColumn As Long ' 部署の列番号（統合）
+    Dim judgementColumn As Long ' 判定要否の列番号（統合）
+    Dim lastRow1 As Long ' 統合シートの最終行
     Dim lastRow2 As Long ' 比較シートの最終行
     Dim matchResult As Variant ' Match関数の結果（見つかった行位置）（現在は未使用）
     Dim rowNumber As Long ' ループ用の行番号
-    Dim Sheet1 As Worksheet ' 「やるやら」シート
+    Dim Sheet1 As Worksheet ' 「統合」シート
     Dim Sheet2 As Worksheet ' 比較対象のシート
     Dim MismatchRows As String ' 不一致行の記録
     Dim selectedSheetIndex As Long ' ユーザーが選んだシート番号
@@ -23,13 +23,13 @@ Sub compareyaruyara_hanteiyouhi()
     MismatchRows = "" ' 不一致行の記録を初期化
 
     '------------------------------------
-    ' Step1: 「やるやら」シートがあるかチェック
+    ' Step1: 「統合」シートがあるかチェック
     '------------------------------------
     On Error Resume Next
-    Set Sheet1 = ThisWorkbook.Sheets("やるやら")
+    Set Sheet1 = ThisWorkbook.Sheets("統合")
     On Error GoTo 0
     If Sheet1 Is Nothing Then
-        MsgBox "やるやらシートがありません。", vbExclamation
+        MsgBox "統合シートがありません。", vbExclamation
         Exit Sub
     End If
     lastRow1 = Sheet1.Cells(Sheet1.Rows.Count, "A").End(xlUp).Row
@@ -51,13 +51,13 @@ Sub compareyaruyara_hanteiyouhi()
     Set Sheet2 = ThisWorkbook.Sheets(selectedSheetIndex)
 
     '------------------------------------
-    ' Step3: 「室課」と「判定要否」列の番号を特定
+    ' Step3: 「部署」と「判定要否」列の番号を特定
     '------------------------------------
-    roomColumn = Application.Match("室課", Sheet1.Rows(1), 0)
+    roomColumn = Application.Match("部署", Sheet1.Rows(1), 0)
     judgementColumn = Application.Match("判定要否", Sheet1.Rows(1), 0)
 
     If IsError(roomColumn) Then
-        MsgBox """室課""列が見つかりませんでした。"
+        MsgBox """部署""列が見つかりませんでした。"
         Exit Sub
     End If
     If IsError(judgementColumn) Then
@@ -85,7 +85,7 @@ Sub compareyaruyara_hanteiyouhi()
                     ' 不一致 → 赤く塗る
                     Sheet1.Cells(i, judgementColumn).Interior.Color = RGB(255, 0, 0)
                     Sheet2.Cells(rowNumber, 3).Interior.Color = RGB(255, 0, 0)
-                    MismatchRows = MismatchRows & "やるやら行" & i & " と " & Sheet2.Name & " 行" & rowNumber & vbCrLf
+                    MismatchRows = MismatchRows & "統合行" & i & " と " & Sheet2.Name & " 行" & rowNumber & vbCrLf
                 End If
             End If
         Next rowNumber
@@ -126,4 +126,5 @@ Sub WriteMismatchToNewSheet(MismatchRows As String)
 
     MsgBox "不一致行の詳細が新しいシートに保存されました。"
 End Sub
+
 
