@@ -13,8 +13,9 @@
 - [✍️ 制作を通して学んだこと・つまずいた点](#✍️-制作を通して学んだことつまずいた点)
 - [📦 構成（マクロの流れと役割）](#📦-構成マクロの流れと役割)
 - [📊 マクロ全体の流れ（フローチャート）](#📊-マクロ全体の流れフローチャート)
-- [📸 デモ（Before / After）](#📸-デモbefore--after)
 - [🔧 使用方法](#🔧-使用方法)
+- [📸 デモ（Before / After）](#📸-デモ)
+- [🎬 処理ごとのデモ動画（MP4）](#🎬-処理ごとのデモ動画)
 - [💡 特徴](#💡-特徴)
 - [🗂 リポジトリ内ファイル](#🗂-リポジトリ内ファイル)
 - [🛡️ ライセンス](#🛡️-ライセンス)
@@ -77,16 +78,30 @@ flowchart TD
 ```
  補足：Mermaid記法によるフローチャートは、GitHubの一部UIでは表示されない場合があります。その際は、ローカルで Live Editor をご利用ください。
 
-
 ## 🔧 使用方法
 1. Excelで「Alt + F11」を押してVBAエディタを開きます。
 2. 「ファイル」→「インポート」で `.bas` ファイルをそれぞれ読み込みます。
 3. 実行したいマクロを選んで「F5」キーで実行します。
 
 ## 📸 デモ（Before / After）
-`docs/demo.gif` に、実際の処理の流れをまとめたGIFを用意しています。  
+
+処理の流れがわかるGIFを `docs/demo.gif` に用意しています。  
 （例：処理前のシート → マクロ実行 → 自動整形後）
-> 📄 詳しい使い方は [`docs/使い方ガイド.txt`](docs/使い方ガイド.txt) を参照してください。
+
+> 詳しい使い方は [`docs/使い方ガイド.txt`](docs/使い方ガイド.txt) を参照してください。
+
+---
+
+### 🎬 処理ごとのデモ動画（MP4）
+
+| No | 処理内容 | 動画リンク | 時間目安 |
+|----|----------|-------------|----------|
+| ① | 統合シート生成マクロ | [▶️ demo_processSheets.mp4](docs/demo_processSheets.mp4) | 約5分 |
+| ② | シート比較マクロ | [▶️ demo_checkMacro.mp4](docs/demo_checkMacro.mp4) | 約1分 |
+| ③ | 項目チェックマクロ | [▶️ demo_compareTasks_decisionFlag.mp4](docs/demo_compareTasks_decisionFlag.mp4) | 約1分 |
+| ④ | 任意列比較マクロ | [▶️ demo_compareTasksColumns.mp4](docs/demo_compareTasksColumns.mp4) | 約1分 |
+| ⑤ | 権限・連絡先整合チェックマクロ | [▶️ demo_lastcheckfiles.mp4](docs/demo_lastcheckfiles.mp4) | 約1分 |
+
 
 ## 🗂 リポジトリ内ファイル
 このリポジトリには、以下のVBAマクロ（`.bas`ファイル）が含まれています：
