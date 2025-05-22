@@ -13,7 +13,6 @@
 - [📊 マクロ全体の流れ（フローチャート）](#📊-マクロ全体の流れフローチャート)
 - [🔧 使用方法](#🔧-使用方法)
 - [📸 デモ（Before / After）](#📸-デモ)
-- [🎬 処理ごとのデモ動画（MP4）](#🎬-処理ごとのデモ動画)
 - [💡 特徴](#💡-特徴)
 - [🗂 リポジトリ内ファイル](#🗂-リポジトリ内ファイル)
 - [🛡️ ライセンス](#🛡️-ライセンス)
@@ -89,17 +88,6 @@ flowchart TD
 > 詳しい使い方は [`docs/使い方ガイド.txt`](docs/使い方ガイド.txt) を参照してください。
 
 ---
-
-### 🎬 処理ごとのデモ動画（MP4）
-
-| No | 処理内容 | 動画リンク | 時間目安 |
-|----|----------|-------------|----------|
-| ① | 統合シート生成マクロ | [▶️ demo_processSheets.mp4](docs/demo_processSheets.mp4) | 約5分 |
-| ② | シート比較マクロ | [▶️ demo_checkMacro.mp4](docs/demo_checkMacro.mp4) | 約1分 |
-| ③ | 項目チェックマクロ | [▶️ demo_compareTasks_decisionFlag.mp4](docs/demo_compareTasks_decisionFlag.mp4) | 約1分 |
-| ④ | 任意列比較マクロ | [▶️ demo_compareTasksColumns.mp4](docs/demo_compareTasksColumns.mp4) | 約1分 |
-| ⑤ | 権限・連絡先整合チェックマクロ | [▶️ demo_lastcheckfiles.mp4](docs/demo_lastcheckfiles.mp4) | 約1分 |
-
 
 ## 🗂 リポジトリ内ファイル
 このリポジトリには、以下のVBAマクロ（`.bas`ファイル）が含まれています：
