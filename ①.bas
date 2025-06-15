@@ -1,5 +1,4 @@
 Sub ProcessSheets() 'シート改変
-
     Dim ws As Worksheet '改変するシートを格納する変数
     Dim yaruyaraSheet As Worksheet '統合するシートをyaruyarasheetとして定義
     Dim headerSourceSheet As Worksheet
