@@ -3,6 +3,7 @@ Sub checkMacro()
 ' 「統合表」の「採否マーク列」と、
 ' 「要件一覧ビュー要件一覧表ビュー」の「仕向列」を比較して、
 ' 値が一致しない箇所を赤に染め、不一致内容を別シートに記録するマクロ
+
 '============================
     Dim range1 As Range, range2 As Range ' 比較する2つの列範囲
     Dim cell1 As Range, cell2 As Range ' 比較対象のセル
