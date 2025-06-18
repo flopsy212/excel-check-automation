@@ -4,7 +4,8 @@ Sub compareTasks_decisionFlag()
     '「統合」シートとの「部署」「判定要否」の一致を確認するマクロ。
     ' 不一致があれば、セルを赤色にして、別シートに記録します。
     '============================
-    
+
+
     Dim requirementRow As Long ' 要件番号がある行番号（現在は未使用）
     Dim roomKaa As String ' 比較シートの部署の値
     Dim yColumnValue As String ' 統合シートの判定要否の値
