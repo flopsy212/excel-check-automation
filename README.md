@@ -145,7 +145,7 @@ flowchart TD
 - `Lastcheckfiles_macrosheet.bas`
 
 
-- ## 🛡️ ライセンス
+## 🛡️ ライセンス
 このリポジトリのコードは MIT ライセンスのもとで公開されています。  
 商用利用・改変はご自由にどうぞ。
 
