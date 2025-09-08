@@ -3,6 +3,7 @@
 それぞれのマクロは、独立した機能を持ちつつ、組み合わせて使うことで一連の処理を自動化します。
 - qiita記事:[https://qiita.com/flopsy_tech/items/1b5675d429c798e29102]
 
+
 ---
 
 ## 🧭 目次（Table of Contents）
