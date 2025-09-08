@@ -4,6 +4,7 @@ Sub ProcessSheets() 'シート改変
     Dim headerSourceSheet As Worksheet
     Dim columnsToKeep As Variant
 
+
     ' 統合シートを作成
     On Error Resume Next
     Set yaruyaraSheet = ThisWorkbook.Sheets("統合")
@@ -416,6 +417,7 @@ Sub RestrictInputBasedOnColumns(ws As Worksheet)
     ' シート保護を再設定
     ws.Protect Password:="password", UserInterfaceOnly:=True, AllowFiltering:=True
 End Sub
+
 
 
 
